@@ -11,44 +11,44 @@ export const constant = [
     meta: { title: 'dashboard', icon: 'fa-house' },
     component: () => import('../pages/dashboard/index.vue')
   },
-  {
-    path: '/window',
-    name: 'window',
-    meta: { title: 'window', icon: 'fa-bell' },
-    component: () => import('../pages/window/index.vue')
-  },
-  {
-    path: '/dialog',
-    name: 'dialog',
-    meta: { title: 'dialog', icon: 'fa-bell' },
-    component: () => import('../pages/dialog/index.vue')
-  },
-  {
-    path: '/data',
-    name: 'data',
-    meta: { title: 'data', icon: 'fa-database' },
-    component: fakeLayout,
-    children: [
-      {
-        path: 'table',
-        name: 'table',
-        meta: { title: 'table', icon: 'fa-table' },
-        component: () => import('../pages/table/index.vue'),
-      },
-      {
-        path: 'tree',
-        name: 'tree',
-        meta: { title: 'tree', icon: 'fa-tree' },
-        component: () => import('../pages/tree/index.vue'),
-      }
-    ]
-  },
-  {
-    path: '/about',
-    name: 'about',
-    meta: { title: 'about', icon: 'fa-bell' },
-    component: () => import('../pages/about/index.vue')
-  },
+  // {
+  //   path: '/window',
+  //   name: 'window',
+  //   meta: { title: 'window', icon: 'fa-bell' },
+  //   component: () => import('../pages/window/index.vue')
+  // },
+  // {
+  //   path: '/dialog',
+  //   name: 'dialog',
+  //   meta: { title: 'dialog', icon: 'fa-bell' },
+  //   component: () => import('../pages/dialog/index.vue')
+  // },
+  // {
+  //   path: '/data',
+  //   name: 'data',
+  //   meta: { title: 'data', icon: 'fa-database' },
+  //   component: fakeLayout,
+  //   children: [
+  //     {
+  //       path: 'table',
+  //       name: 'table',
+  //       meta: { title: 'table', icon: 'fa-table' },
+  //       component: () => import('../pages/table/index.vue'),
+  //     },
+  //     {
+  //       path: 'tree',
+  //       name: 'tree',
+  //       meta: { title: 'tree', icon: 'fa-tree' },
+  //       component: () => import('../pages/tree/index.vue'),
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/about',
+  //   name: 'about',
+  //   meta: { title: 'about', icon: 'fa-bell' },
+  //   component: () => import('../pages/about/index.vue')
+  // },
   {
     path: '/login',
     name: 'login',

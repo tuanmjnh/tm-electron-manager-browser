@@ -16,12 +16,14 @@ const onOpenPuppeteerChrome = (message: any) => {
 }
 </script>
 <template>
-  <el-row class="mb-4">
-    <el-button type="primary" @click="onOpenWindowChrome">Open Window Chrome</el-button>
-    <el-button type="success" @click="onOpenSeleniumChrome">Open Selenium Chrome</el-button>
-    <el-button type="info" @click="onOpenSeleniumFirefox">Open Selenium Firefox</el-button>
-    <el-button type="warning" @click="onOpenPuppeteerChrome">Open Puppeteer Chrome</el-button>
-    <!-- <el-button type="danger">Danger</el-button> -->
-  </el-row>
+  <!-- <el-row class="mb-4"> -->
+  <el-space wrap>
+    <el-button type="primary" @click="onOpenWindowChrome">Window Chrome</el-button>
+    <el-button type="success" @click="onOpenSeleniumChrome">Selenium Chrome</el-button>
+    <el-button type="info" @click="onOpenSeleniumFirefox">Selenium Firefox</el-button>
+    <el-button type="warning" @click="onOpenPuppeteerChrome">Puppeteer Chrome</el-button>
+  </el-space>
+  <!-- <el-button type="danger">Danger</el-button> -->
+  <!-- </el-row> -->
 </template>
 <style scoped></style>

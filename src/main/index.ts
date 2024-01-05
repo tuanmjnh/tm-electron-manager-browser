@@ -2,12 +2,16 @@ import { app, shell, BrowserWindow } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import { PuppeteerChrome } from './Window'
+import * as  MongoDB from '../services/mongoose'
 import './Dialog'
-import { WindowChome, SeleniumChrome, SeleniumFirefox, PuppeteerChrome } from './Window'
+import './NativeTheme'
+
 // import test from './test'
+MongoDB.initialize()
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 const root = process.cwd()
-let mainWindow;
+let mainWindow
 function createWindow(): void {
   // Create the browser window.
   mainWindow = new BrowserWindow({
@@ -40,6 +44,9 @@ function createWindow(): void {
   }
 }
 
+//nativeTheme
+
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -62,9 +69,9 @@ app.whenReady().then(() => {
   })
 
   //Set children window
-  WindowChome({ parent: mainWindow, modal: false })
-  SeleniumChrome({ parent: mainWindow, modal: false })
-  SeleniumFirefox({ parent: mainWindow, modal: false })
+  // WindowChome({ parent: mainWindow, modal: false })
+  // SeleniumChrome({ parent: mainWindow, modal: false })
+  // SeleniumFirefox({ parent: mainWindow, modal: false })
   PuppeteerChrome({ parent: mainWindow, modal: false })
 })
 

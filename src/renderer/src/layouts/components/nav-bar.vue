@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 import stores from '@renderer/stores'
-const storeApp = stores.app()
+const storeApplication = stores.application()
 const storeSetting = stores.setting()
-const languages = computed(() => storeApp.languages)
-const onToggleDarkMode = () => {
-  storeSetting.setDarkMode(!storeSetting.darkMode)
+const languages = computed(() => storeApplication.languages)
+window.darkMode.toggle([storeSetting.darkMode])
+const onToggleDarkMode = async () => {
+  const darkMode = !storeSetting.darkMode
+  await window.darkMode.toggle([darkMode])
+  storeSetting.setDarkMode(darkMode)
 }
 const onSetLanguage = (item) => {
   if (storeSetting.language !== item) {
@@ -36,6 +39,13 @@ const onSetLanguage = (item) => {
         class="w-6 h-6">
         <path stroke-linecap="round" stroke-linejoin="round"
           d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+      </svg>
+    </el-button>
+    <el-button text circle>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+        class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
       </svg>
     </el-button>
     <!-- <button>

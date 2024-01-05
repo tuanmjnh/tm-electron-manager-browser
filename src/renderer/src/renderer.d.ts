@@ -5,6 +5,7 @@ export interface IElectronAPI {
 declare global {
   interface Window {
     electronAPI: IElectronAPI
+    darkMode: any
     // electron: any
   }
   interface Navigator {

@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { defineAsyncComponent, computed } from "vue";
-import stores from "./stores";
-const storeSetting = stores.setting();
+import { defineAsyncComponent, computed } from "vue"
+import stores from "./stores"
+const storeSetting = stores.setting()
+const storeAuthenticate = stores.authenticate()
 // init setting
-storeSetting.initialize();
+storeSetting.initialize()
 const component = computed(() => {
-  if (true) {
-    //if ($store.state.auth.user) {
+  // if (true) {
+  if (storeAuthenticate.user) {
     return defineAsyncComponent(() => import(`./layouts/index.vue`));
   } else {
     return defineAsyncComponent(() => import("./layouts/fake-layout.vue"));

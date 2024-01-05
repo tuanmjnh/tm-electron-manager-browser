@@ -40,7 +40,8 @@ export default {
     table: 'Bảng',
     tree: 'Cây',
     about: 'Giới thiệu',
-    window: 'Cửa sổ'
+    window: 'Cửa sổ',
+    login: 'Đăng nhập'
   },
   global: {
     list: 'Danh sách dữ liệu',
@@ -223,7 +224,7 @@ export default {
     size: 'Kích thước chữ',
     switchLanguage: 'Thay đổi ngôn ngữ'
   },
-  login: {
+  authenticate: {
     title: 'Đăng nhập hệ thống',
     login: 'Đăng nhập',
     username: 'Tài khoản',

@@ -299,8 +299,8 @@ export const PuppeteerChrome = ({ parent, modal = false }) => {
         // '--no-sandbox',
         '--enable-gpu',
         '--disable-infobars',
-        `--user-data-dir=${args.profile.path}`,
-        `--profile-directory=${args.profile.name}`,
+        `--user-data-dir=${path.join(args.profile.path, args.profile.name)}`
+        // `--profile-directory=${args.profile.name}`,
         // `--proxy-server=${args.proxy.host}:${args.proxy.port}`
       ]
     })
@@ -308,11 +308,15 @@ export const PuppeteerChrome = ({ parent, modal = false }) => {
     // Open a new page
     const [page] = await browser.pages()
 
+    // setUserAgent
+    await page.setUserAgent(args.userAgent)
+
     // authenticate proxy
     // await page.authenticate({
     //   username: args.proxy.username,
     //   password: args.proxy.password,
     // })
+
 
     // Navigate to a website
     await page.goto('https://ipfighter.com/')

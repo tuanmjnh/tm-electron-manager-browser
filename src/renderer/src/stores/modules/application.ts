@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { GetAll } from '../../i18n'
-const NAMESPACED = 'app'
+const NAMESPACED = 'application'
 export default defineStore({
   id: NAMESPACED,
   persist: true,

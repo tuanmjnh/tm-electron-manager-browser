@@ -24,6 +24,7 @@ module.exports = {
     "vue/first-attribute-linebreak": "off",
     "vue/html-closing-bracket-newline": "off",
     "vue/component-definition-name-casing": "off",
+    "no-async-promise-executor": "off",
     "no-constant-condition": "off",
     "no-unused-variable": "off",
     "no-unused-vars": "off",

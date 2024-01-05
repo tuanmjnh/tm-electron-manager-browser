@@ -39,7 +39,8 @@ export default {
     table: 'Table',
     tree: 'Tree',
     about: 'About',
-    window: 'Window'
+    window: 'Window',
+    login: 'Login'
   },
   global: {
     list: 'List data',
@@ -222,8 +223,8 @@ export default {
     size: 'Global Size',
     switchLanguage: 'Switch language'
   },
-  login: {
-    title: 'Login Form',
+  authenticate: {
+    title: 'Sign in',
     login: 'Login',
     username: 'Username',
     password: 'Password',

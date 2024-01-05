@@ -13,7 +13,7 @@
     "paths": {
       "@renderer/*": ["src/renderer/src/*"]
     },
-    "types": ["vite/client", "element-plus/global"],
+    "types": ["vite/client", "element-plus/global", "chrome"],
     "noUnusedLocals": false,
     "noUnusedParameters": false
   }

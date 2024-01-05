@@ -80,7 +80,7 @@ const addRoutes = (routers, replace = true) => {
 }
 
 // Generate routes dynamic
-const generateRoutes = (authRoutes, _dynamic) => {
+const generateRoutes = (authRoutes, _dynamic?) => {
   const rs: Array<RouteRecordRaw> = []
   _dynamic = dynamic.slice() || _dynamic
   for (const e of _dynamic) {
