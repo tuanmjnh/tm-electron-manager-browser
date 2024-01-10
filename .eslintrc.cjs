@@ -15,6 +15,8 @@ module.exports = {
     "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/no-this-alias": "off",
     "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "vue/no-unused-vars": "off",
     "vue/html-indent": "off",
     "vue/require-default-prop": "off",
     "vue/multi-word-component-names": "off",
@@ -31,5 +33,7 @@ module.exports = {
     "no-useless-escape": "off",
     "no-redeclare": "off",
     "no-useless-catch": "off",
+    "no-empty": "off",
+    "prefer-rest-params": "off"
   },
 };

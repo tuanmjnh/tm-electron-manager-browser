@@ -1,21 +1,18 @@
 <script setup lang="ts">
-import { onMounted } from "vue";
-import { useRouter } from "vue-router";
-import { setWindowSize } from "@renderer/utils/window";
-import NavBar from "./components/nav-bar.vue";
-import LeftMenu from "./components/left-menu.vue";
+import { onMounted } from "vue"
+import { useRouter } from "vue-router"
+import { setWindowSize } from "@renderer/utils/window"
+import { generateRoutes } from '@renderer/utils/tree'
+import NavBar from "./components/nav-bar.vue"
+import LeftMenu from "./components/left-menu.vue"
 onMounted(() => {
-  setWindowSize('[class*="app-container"]');
-  window.addEventListener(
-    "resize",
-    (e) => {
-      setWindowSize('[class*="app-container"]');
-    },
-    true
-  );
-});
-const $router = useRouter();
-const routesMenu = $router.options.routes.filter((x) => x.meta && !x.meta.hidden);
+  setWindowSize('[class*="app-container"]')
+  window.addEventListener("resize", (e) => {
+    setWindowSize('[class*="app-container"]')
+  }, true)
+})
+const $router = useRouter()
+const routesMenu = generateRoutes($router.options.routes)//$router.options.routes.filter((x) => x.meta && !x.meta.hidden)
 </script>
 <template>
   <el-container class="app-container">

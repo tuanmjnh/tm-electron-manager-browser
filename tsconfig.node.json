@@ -7,7 +7,7 @@
     "src/services"
   ],
   "compilerOptions": {
-    "composite": true,
+    "composite": false,
     "types": ["electron-vite/node"],
     "noUnusedLocals": false,
     "noUnusedParameters": false

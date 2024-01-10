@@ -21,7 +21,9 @@ if (process.contextIsolated) {
   window.api = api
 }
 
+// NativeTheme
 contextBridge.exposeInMainWorld('darkMode', {
   toggle: (args) => ipcRenderer.invoke('dark-mode:toggle', args),
   system: () => ipcRenderer.invoke('dark-mode:system')
 })
+

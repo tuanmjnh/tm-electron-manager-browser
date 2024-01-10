@@ -9,7 +9,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import router from './router'
 import plugins from './plugins'
 import App from './App.vue'
-// import 'element-plus/dist/index.css'
+import 'element-plus/dist/index.css'
 // import './styles/index.scss'
 // If you want to use ElMessage, import it.
 import 'element-plus/theme-chalk/dark/css-vars.css'

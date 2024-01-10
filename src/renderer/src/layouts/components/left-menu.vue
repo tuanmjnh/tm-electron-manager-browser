@@ -8,7 +8,7 @@ const props = defineProps({
 });
 const onclick = (item: any) => {
   $router.push({ name: item.name }).catch((e) => {
-    console.log(e);
+    // console.log(e);
   });
 };
 </script>
@@ -17,7 +17,7 @@ const onclick = (item: any) => {
     <template v-for="(e, i) in items" :key="i">
       <el-sub-menu v-if="e.children && e.children.length > 0" :index="`${i}`">
         <template #title>
-          <i class=" el-icon"><span :class="['fa-solid', e.meta ? e.meta.icon : '']" /></i>
+          <i class="el-icon"><span :class="['fa-solid', e.meta ? e.meta.icon : '']" /></i>
           {{ e.meta ? $t(`route.${e.meta.title}`) : '' }}
         </template>
         <menu-item-group v-if="e.meta && e.meta.group" :group="e.meta.group" :items="e.children" />

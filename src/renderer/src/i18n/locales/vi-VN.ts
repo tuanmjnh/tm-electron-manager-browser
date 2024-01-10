@@ -160,7 +160,8 @@ export default {
     default: 'Mặc định',
     duplicate: 'Tạo bản sao',
     zoomIn: 'Phóng to',
-    zoomOut: 'Thu nhỏ'
+    zoomOut: 'Thu nhỏ',
+    reset: 'Đặt lại'
   },
   success: {
     insert: 'Thêm mới thành công',
@@ -244,5 +245,58 @@ export default {
     authTooManyRequests: 'Quá nhiều lần thử đăng nhập không thành công. Vui lòng xác minh reCaptcha hoặc thử lại sau!',
     networkRequestFailed: 'Lỗi kết nối mạng. Vui lòng thử lại!',
     loginWith: 'Đăng nhập bằng'
+  },
+  users: {
+    title: 'Người dùng',
+    list: 'Danh sách người dùng',
+    add: 'Thêm mới người dùng',
+    username: 'Tài khoản',
+    password: 'Mật khẩu',
+    oldPassword: 'Mật khẩu cũ',
+    newPassword: 'Mật khẩu mới',
+    rePassword: 'Xác nhận mật khẩu',
+    group: 'Nhóm người dùng',
+    email: 'Email',
+    firstName: 'Tên',
+    lastName: 'Họ',
+    fullName: 'Họ tên',
+    phone: 'Số điện thoại',
+    personNumber: 'Số CMND/CCCD',
+    dateBirth: 'Ngày sinh',
+    gender: 'Giới tính',
+    address: 'Địa chỉ',
+    avatar: 'Ảnh đại diện',
+    note: 'Gới thiệu',
+    region: 'Quốc gia',
+    verify: 'Xác thực',
+    verified: 'Đã xác thực',
+    unverified: 'Chưa xác thực',
+    aboutMe: 'Thông tin',
+    selectRegion: 'Lựa chọn quốc gia',
+    changePassword: 'Thay đổi mật khẩu',
+    resetPassword: 'Đặt lại mật khẩu',
+    msgResetPassword: 'Mật khẩu mới của tài khoản {username}: {password}',
+    msgNewRePassword: 'Mật khẩu mới chưa chính xác',
+    information: 'Thông tin tài khoản',
+    securityCheck: 'Kiểm tra bảo mật',
+    securityStatus: 'Tình trạng bảo mật',
+    loginHistory: 'Lịch sử đăng nhập',
+    lastLogin: 'Đăng nhập gần nhất',
+    lastChangePass: 'Đổi mật khẩu gần nhất',
+    client: 'Khách',
+    manager: 'Quản trị'
+  },
+  profile: {
+    title: 'Hồ sơ của tôi',
+    security: 'Bảo mật',
+    setting: 'Cài đặt'
+  },
+  roles: {
+    title: 'Quyền',
+    add: 'Thêm mới quyền',
+    key: 'Mã quyền',
+    name: 'Tên quyền',
+    list: 'Danh sách quyền',
+    menus: 'Danh sách Menus'
   }
 }

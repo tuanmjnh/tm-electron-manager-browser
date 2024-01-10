@@ -3,6 +3,16 @@ import moment from 'moment'
 import * as directives from './directive'
 import './page-title'
 import './prototypes'
+
+declare module '@vue/runtime-core' {
+  interface ComponentCustomProperties {
+    $moment: (inp?: moment.MomentInput, strict?: boolean) => moment.Moment,
+    $createdAt: (dateTime: string, strict?: boolean) => moment.Moment
+  }
+}
+
+// export {}  // Important! See note.
+
 export default (app) => {
   //directives
   Object.keys(directives).forEach(key => {
@@ -18,4 +28,5 @@ export default (app) => {
   // app.config.globalProperties.$api = api
   //moment
   app.config.globalProperties.$moment = moment
+  app.config.globalProperties.$createdAt = (dateTime: string, strict?: boolean) => { return moment(dateTime, strict || false).format('DD/MM/YYYY - hh:mm') }
 }

@@ -6,11 +6,20 @@
   padding: initial !important;
 }
 
-.el-main {
-  padding: initial !important;
+// .el-main {
+//   padding: initial !important;
 
+//   .el-scrollbar {
+//     padding: 0px 6px;
+//   }
+// }
+.el-card-add {
+  .el-card__body {
+    padding-right: 0 !important;
+  }
   .el-scrollbar {
-    padding: 0px 6px;
+    padding-right: var(--el-card-padding);
+    height: calc(100vh - 218px) !important;
   }
 }
 .left-menu {
@@ -62,6 +71,10 @@
 .el-space {
   flex: auto;
 }
+.text-right {
+  text-align: right;
+  justify-content: end;
+}
 
 .el-row-nowrap {
   flex-wrap: nowrap !important;
@@ -88,7 +101,9 @@ button {
     width: 20px !important;
   }
 }
-
+// .el-button {
+//   display: flex !important;
+// }
 .el-dropdown-menu__item.selected {
   color: var(--el-dropdown-menuItem-hover-color);
 }
@@ -217,4 +232,7 @@ button {
 
 .hidden {
   display: none;
+}
+.flex {
+  display: flex;
 }

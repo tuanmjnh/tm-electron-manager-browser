@@ -282,10 +282,37 @@ export const PuppeteerChrome = ({ parent, modal = false }) => {
     // 193.37.212.109:29000:gukwixkx:Gc749pdCn8 - 4G
     // 165.232.155.139:17991:dsykzknj:m74kHf2Nt2 - 5G
     // args.proxy = 'gukwixkx:Gc749pdCn8@193.37.212.109:29000'
-    args.proxy = { username: 'gukwixkx', password: 'Gc749pdCn8', host: '193.37.212.109', port: '29000' } as Proxy
+    // 209.114.25.151:10506:vaw7yAkPx0:SKYCDYbIYT
+    args.proxy = { username: 'vaw7yAkPx0', password: 'SKYCDYbIYT', host: '209.114.25.151', port: '10506' } as Proxy
     args.userAgent = 'Mozilla/5.0 (Macintosh Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Safari/605.1.15'
     args.profile = { path: 'D:\\profiles\\chrome', name: 'Selenium 1' }
     // Launch Puppeteer with a custom browser instance
+    const DEFAULT_ARGS = [
+      '--disable-background-networking',
+      '--enable-features=NetworkService,NetworkServiceInProcess',
+      '--disable-background-timer-throttling',
+      '--disable-backgrounding-occluded-windows',
+      '--disable-breakpad',
+      '--disable-client-side-phishing-detection',
+      '--disable-component-extensions-with-background-pages',
+      '--disable-default-apps',
+      '--disable-dev-shm-usage',
+      '--disable-extensions',
+      // BlinkGenPropertyTrees disabled due to crbug.com/937609
+      '--disable-features=TranslateUI,BlinkGenPropertyTrees',
+      '--disable-hang-monitor',
+      '--disable-ipc-flooding-protection',
+      '--disable-popup-blocking',
+      '--disable-prompt-on-repost',
+      '--disable-renderer-backgrounding',
+      '--disable-sync',
+      '--force-color-profile=srgb',
+      '--metrics-recording-only',
+      '--no-first-run',
+      '--enable-automation',
+      '--password-store=basic',
+      '--use-mock-keychain',
+    ]
     const browser = await puppeteer.launch({
       // headless: 'new',
       headless: false,
@@ -294,12 +321,12 @@ export const PuppeteerChrome = ({ parent, modal = false }) => {
       // devtools: true,
       timeout: 3000,
       defaultViewport: null,
-      ignoreDefaultArgs: ['--enable-automation'],
+      ignoreDefaultArgs: ['--enable-automation', '--disable-extensions'],
       args: [
         // '--no-sandbox',
         '--enable-gpu',
         '--disable-infobars',
-        `--user-data-dir=${path.join(args.profile.path, args.profile.name)}`
+        `--user-data-dir=${path.join(args.profile.path, args.profile.name)}`,
         // `--profile-directory=${args.profile.name}`,
         // `--proxy-server=${args.proxy.host}:${args.proxy.port}`
       ]

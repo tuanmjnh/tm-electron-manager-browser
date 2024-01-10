@@ -3,9 +3,15 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { PuppeteerChrome } from './Window'
-import * as  MongoDB from '../services/mongoose'
 import './Dialog'
 import './NativeTheme'
+
+//MongoDB
+import * as  MongoDB from '../services/mongoose'
+//MongoDB Modules
+import './mongodb/authenticates/index'
+import './mongodb/roles/index'
+import './mongodb/users/index'
 
 // import test from './test'
 MongoDB.initialize()
@@ -22,7 +28,9 @@ function createWindow(): void {
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      sandbox: false,
+      // nodeIntegration: true,
+      // contextIsolation: false
     }
   })
 

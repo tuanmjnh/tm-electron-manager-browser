@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 // import Cookies from 'js-cookie'
 import localStorage from '../../utils/localStorage'
 import { Router, addRoutes, generateRoutes, resetRouter, constant } from '../../router'
-const NAMESPACED = 'authenticates'
+const NAMESPACED = 'users'
 const LOCALSTORAGE = localStorage.get(NAMESPACED) || {}
 export default defineStore({
   id: NAMESPACED,

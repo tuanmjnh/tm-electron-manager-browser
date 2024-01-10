@@ -3,46 +3,72 @@ export const constant = [
   {
     path: '',
     redirect: '/dashboard',
-    meta: { hidden: true },
+    meta: { constant: true, hidden: true },
   },
   {
     path: '/dashboard',
     name: 'dashboard',
-    meta: { title: 'dashboard', icon: 'fa-house' },
+    meta: { title: 'dashboard', icon: 'fa-house', constant: true },
     component: () => import('../pages/dashboard/index.vue')
   },
-  // {
-  //   path: '/window',
-  //   name: 'window',
-  //   meta: { title: 'window', icon: 'fa-bell' },
-  //   component: () => import('../pages/window/index.vue')
-  // },
+  {
+    path: '/window',
+    name: 'window',
+    meta: { title: 'window', icon: 'fa-bell', constant: true },
+    component: () => import('../pages/window/index.vue')
+  },
   // {
   //   path: '/dialog',
   //   name: 'dialog',
   //   meta: { title: 'dialog', icon: 'fa-bell' },
   //   component: () => import('../pages/dialog/index.vue')
   // },
-  // {
-  //   path: '/data',
-  //   name: 'data',
-  //   meta: { title: 'data', icon: 'fa-database' },
-  //   component: fakeLayout,
-  //   children: [
-  //     {
-  //       path: 'table',
-  //       name: 'table',
-  //       meta: { title: 'table', icon: 'fa-table' },
-  //       component: () => import('../pages/table/index.vue'),
-  //     },
-  //     {
-  //       path: 'tree',
-  //       name: 'tree',
-  //       meta: { title: 'tree', icon: 'fa-tree' },
-  //       component: () => import('../pages/tree/index.vue'),
-  //     }
-  //   ]
-  // },
+  {
+    path: '/users',
+    name: 'users',
+    meta: { title: 'users', icon: 'fa-user' },
+    component: fakeLayout,
+    children: [
+      {
+        path: 'view',
+        name: 'users-view',
+        meta: { title: 'list', icon: 'fa-list' },
+        component: () => import('../pages/users/index.vue'),
+      },
+      {
+        path: 'add',
+        name: 'users-add',
+        meta: { title: 'add', icon: 'fa-plus' },
+        component: () => import('../pages/users/add.vue'),
+      }
+    ]
+  },
+  {
+    path: '/roles',
+    name: 'roles',
+    meta: { title: 'roles', icon: 'fa-key' },
+    component: fakeLayout,
+    children: [
+      {
+        path: 'view',
+        name: 'roles-view',
+        meta: { parent: 'roles', title: 'list', icon: 'fa-list' },
+        component: () => import('../pages/roles/index.vue'),
+      },
+      {
+        path: 'add',
+        name: 'roles-add',
+        meta: { parent: 'roles', title: 'add', icon: 'fa-plus' },
+        component: () => import('../pages/roles/add.vue'),
+      },
+      {
+        path: 'edit/:id',
+        name: 'roles-edit',
+        meta: { parent: 'roles', title: 'edit', icon: 'fa-edit', hidden: true },
+        component: () => import('../pages/roles/add.vue')
+      },
+    ]
+  },
   // {
   //   path: '/about',
   //   name: 'about',
@@ -52,7 +78,7 @@ export const constant = [
   {
     path: '/login',
     name: 'login',
-    meta: { title: 'login', icon: 'login', hidden: true },
+    meta: { title: 'login', icon: 'login', constant: true, hidden: true },
     component: () => import('../pages/login/index.vue')
   }
 ]
@@ -61,9 +87,11 @@ if (import.meta.env.MODE !== 'ssr') {
   constant.push({
     path: '/:catchAll(.*)*',
     name: '404',
-    meta: { title: 'error404', icon: '404', hidden: true },
+    meta: { title: 'error404', icon: '404', constant: true, hidden: true },
     component: () => import('../pages/error/error404.vue')
   })
 }
 
-export const dynamic = []
+export const dynamic = [
+
+]
