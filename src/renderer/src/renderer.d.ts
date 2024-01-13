@@ -5,8 +5,12 @@ export interface IElectronAPI {
 declare global {
   interface Window {
     electronAPI: IElectronAPI
-    darkMode: any
     // electron: any
+    DarkMode: any
+    DarkMode: any
+    Dialog: any
+    Config: any
+    Puppeteer: any
   }
   interface Navigator {
     browserLanguage: string

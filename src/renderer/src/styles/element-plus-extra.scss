@@ -19,9 +19,25 @@
   }
   .el-scrollbar {
     padding-right: var(--el-card-padding);
-    height: calc(100vh - 218px) !important;
+    height: calc(100vh - 218px);
   }
 }
+.el-card-add-tab {
+  .el-card__body {
+    padding-right: 0 !important;
+  }
+  .el-scrollbar {
+    padding-right: var(--el-card-padding);
+    height: calc(100vh - 292px);
+  }
+}
+.el-card-index {
+  .el-card__body {
+    padding: 0 !important;
+    height: calc(100vh - 246px);
+  }
+}
+
 .left-menu {
   width: initial !important;
   min-width: 200px;
@@ -64,16 +80,17 @@
   }
 }
 
-:root {
-  --padding-none: 0px;
-}
-
-.el-space {
-  flex: auto;
-}
-.text-right {
-  text-align: right;
-  justify-content: end;
+.el-avatar-select {
+  padding: 5px;
+  margin: 0 6px;
+  align-content: center;
+  display: flex;
+  border-radius: 50%;
+  border: 1px solid var(--el-border-color);
+  cursor: pointer;
+  &.selected {
+    border: 1px solid var(--el-color-primary);
+  }
 }
 
 .el-row-nowrap {
@@ -93,6 +110,11 @@
     padding-right: 33px !important;
   }
 }
+.el-button-append {
+  color: var(--el-button-text-color) !important;
+  background-color: var(--el-button-bg-color) !important;
+  border-radius: 0px !important;
+}
 .el-button-square {
   border-radius: initial !important;
 }
@@ -107,7 +129,25 @@ button {
 .el-dropdown-menu__item.selected {
   color: var(--el-dropdown-menuItem-hover-color);
 }
+:root {
+  --padding-none: 0px;
+}
 
+.el-space {
+  flex: auto;
+}
+
+.text-right {
+  text-align: right;
+  justify-content: end;
+}
+
+.text-center {
+  text-align: center;
+  justify-content: center;
+  vertical-align: middle;
+  display: flex;
+}
 .m-b-2px {
   margin-bottom: 2px;
 }

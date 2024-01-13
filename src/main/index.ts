@@ -2,16 +2,18 @@ import { app, shell, BrowserWindow } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import { PuppeteerChrome } from './Window'
 import './Dialog'
 import './NativeTheme'
+import './Config'
+import './puppeteer'
 
 //MongoDB
 import * as  MongoDB from '../services/mongoose'
 //MongoDB Modules
-import './mongodb/authenticates/index'
-import './mongodb/roles/index'
-import './mongodb/users/index'
+import './mongodb/authenticates'
+import './mongodb/roles'
+import './mongodb/users'
+import './mongodb/profiles'
 
 // import test from './test'
 MongoDB.initialize()
@@ -80,7 +82,7 @@ app.whenReady().then(() => {
   // WindowChome({ parent: mainWindow, modal: false })
   // SeleniumChrome({ parent: mainWindow, modal: false })
   // SeleniumFirefox({ parent: mainWindow, modal: false })
-  PuppeteerChrome({ parent: mainWindow, modal: false })
+  // PuppeteerChrome({ parent: mainWindow, modal: false })
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common

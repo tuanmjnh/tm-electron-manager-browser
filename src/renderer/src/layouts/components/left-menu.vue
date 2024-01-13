@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import { RouteRecordRaw, useRouter } from "vue-router";
-const $router = useRouter();
-import MenuItemGroup from "./left-menu-item-group.vue";
-import MenuItem from "./left-menu-item.vue";
+import { RouteRecordRaw, useRouter } from "vue-router"
+const $router = useRouter()
+// const $route = useRoute()
+import MenuItemGroup from "./left-menu-item-group.vue"
+import MenuItem from "./left-menu-item.vue"
 const props = defineProps({
-  items: { type: Array<RouteRecordRaw>, default: [] },
-});
-const onclick = (item: any) => {
+  items: { type: Array<RouteRecordRaw>, default: [] }
+})
+const onClick = (item: any) => {
   $router.push({ name: item.name }).catch((e) => {
-    // console.log(e);
-  });
-};
+    // console.log(e)
+  })
+}
 </script>
 <template>
   <el-menu>
@@ -22,10 +23,11 @@ const onclick = (item: any) => {
         </template>
         <menu-item-group v-if="e.meta && e.meta.group" :group="e.meta.group" :items="e.children" />
         <template v-else>
-          <menu-item v-for="(child, ii) in e.children" :key="ii" :item="child" @click="onclick(child)" />
+          <menu-item v-for="(child, ii) in e.children" :key="ii" :item="child"
+            :class="child.name == $route.name ? 'is-active' : ''" @click="onClick(child)" />
         </template>
       </el-sub-menu>
-      <menu-item v-else :item="e" @click="onclick(e)" />
+      <menu-item v-else :item="e" :class="e.name == $route.name ? 'is-active' : ''" @click="onClick(e)" />
     </template>
   </el-menu>
 </template>

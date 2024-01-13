@@ -36,6 +36,9 @@ const CONSTANT = {
   },
   shadow: {
     table: false
+  },
+  profile: {
+    directory: 'D:\\PROFILES'
   }
 }
 
@@ -87,6 +90,9 @@ export default defineStore({
     },
     shadow: {
       table: LOCALSTORAGE.shadow && LOCALSTORAGE.shadow.table !== undefined ? LOCALSTORAGE.shadow.table : CONSTANT.shadow.table
+    },
+    profile: {
+      directory: LOCALSTORAGE.profile && LOCALSTORAGE.profile.directory !== undefined ? LOCALSTORAGE.profile.directory : CONSTANT.profile.directory
     }
   }),
   getters: {},

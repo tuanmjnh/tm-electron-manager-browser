@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { RouteRecordRaw } from 'vue-router';
+import { RouteRecordRaw } from 'vue-router'
 const props = defineProps({
   group: { type: Object, default: {} },
   items: { type: Array<RouteRecordRaw>, default: [] },
-});
+})
 </script>
 <template>
   <el-menu-item-group>

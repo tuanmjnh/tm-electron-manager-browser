@@ -1,15 +1,35 @@
 import { defineStore } from 'pinia'
 import localStorage from '../../utils/localStorage'
-const NAMESPACED = 'roles'
+const NAMESPACED = 'profiles'
 const LOCALSTORAGE = localStorage.get(NAMESPACED) || {}
-interface MRoles {
+interface Timezone {
+  auto: boolean,
+  TZ: string
+}
+interface Location {
+  auto: boolean,
+  latitude?: number,
+  longitude?: number
+}
+interface MProfiles {
   _id?: string,
   key: string,
   name: string,
+  broserType: string,
+  broserVersion: string,
+  userAgent: string,
+  proxyType: string,
+  proxyHost: string,
+  proxyPort: string,
+  proxyUsername: string,
+  proxyPassword: string,
+  location?: Location,
+  timezone: Timezone,
+  webRTC: string,
+  startUrl: string,
+  extensions: string,
   desc: string,
-  level: number,
-  color: string,
-  routes?: Array<string>,
+  order: number,
   flag: number,
   created: any
 }
@@ -17,13 +37,24 @@ const constant = ({
   _id: undefined,
   key: '',
   name: '',
+  broserType: 'chrome',
+  broserVersion: '',
+  userAgent: '',
+  proxyType: '',
+  proxyHost: '',
+  proxyPort: '',
+  proxyUsername: '',
+  proxyPassword: '',
+  location: { auto: true },//{ latitude: undefined, longitude: undefined },
+  timezone: { auto: true },
+  webRTC: '',
+  startUrl: 'https://ipfighter.com',
+  extensions: '',
   desc: '',
-  level: 1,
-  color: '#027be3',
-  routes: [],
+  order: 1,
   flag: 1,
   created: undefined
-}) as MRoles
+}) as MProfiles
 export default defineStore({
   id: NAMESPACED,
   persist: true,

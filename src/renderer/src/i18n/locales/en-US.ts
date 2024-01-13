@@ -40,7 +40,8 @@ export default {
     tree: 'Tree',
     about: 'About',
     window: 'Window',
-    login: 'Login'
+    login: 'Login',
+    profiles: 'Profiles'
   },
   global: {
     list: 'List data',
@@ -159,7 +160,16 @@ export default {
     default: 'Default',
     duplicate: 'Duplicate',
     zoomIn: 'Zoom in',
-    zoomOut: 'Zoom out'
+    zoomOut: 'Zoom out',
+    reset: 'Reset',
+    basic: 'Basic',
+    advanced: 'Advanced',
+    layout: 'Layout',
+    regionTime: 'Region - Time',
+    auto: 'Auto',
+    custom: 'Custom',
+    manual: 'Manual',
+    directory: 'Directory'
   },
   success: {
     insert: 'Insert success',
@@ -296,5 +306,28 @@ export default {
     name: 'Role name',
     list: 'Roles list',
     menus: 'Menu list'
+  },
+  profiles: {
+    title: 'Profile',
+    add: 'Add new profile',
+    key: 'Profile key',
+    name: 'Profile Name',
+    broserType: 'Broser type',
+    userAgent: 'User Agent',
+    proxyType: 'Proxy type',
+    proxyHost: 'Host',
+    proxyPort: 'Port',
+    proxyUsername: 'Username',
+    proxyPassword: 'Password',
+    locationCustom: 'Custom location',
+    timezone: 'Timezone',
+    timezoneManual: 'Manual timezone',
+    location: 'Location',
+    locationManual: 'Manual location',
+    webRTC: 'WebRTC',
+    startUrl: 'Start url',
+    extensions: 'Extensions',
+    list: 'Profile list',
+    createByName: 'Create by name'
   }
 }

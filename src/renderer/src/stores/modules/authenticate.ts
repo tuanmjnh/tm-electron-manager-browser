@@ -34,7 +34,7 @@ export default defineStore({
           this.logout()
         return this.user
       } catch (e) {
-        return null
+        throw new Error((e as any))
       }
     },
     logout() {

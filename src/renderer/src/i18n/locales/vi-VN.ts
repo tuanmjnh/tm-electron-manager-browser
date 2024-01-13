@@ -41,7 +41,8 @@ export default {
     tree: 'Cây',
     about: 'Giới thiệu',
     window: 'Cửa sổ',
-    login: 'Đăng nhập'
+    login: 'Đăng nhập',
+    profiles: 'Profiles'
   },
   global: {
     list: 'Danh sách dữ liệu',
@@ -161,7 +162,15 @@ export default {
     duplicate: 'Tạo bản sao',
     zoomIn: 'Phóng to',
     zoomOut: 'Thu nhỏ',
-    reset: 'Đặt lại'
+    reset: 'Đặt lại',
+    basic: 'Cơ bản',
+    advanced: 'Nâng cao',
+    layout: 'Giao diện',
+    regionTime: 'Vị trí - Thời gian',
+    auto: 'Tự động',
+    custom: 'Tùy chỉnh',
+    manual: 'Thủ công',
+    directory: 'Thư mục'
   },
   success: {
     insert: 'Thêm mới thành công',
@@ -298,5 +307,27 @@ export default {
     name: 'Tên quyền',
     list: 'Danh sách quyền',
     menus: 'Danh sách Menus'
+  },
+  profiles: {
+    title: 'Profile',
+    add: 'Thêm profile',
+    key: 'Mã profile',
+    name: 'Tên profile',
+    broserType: 'Loại trình duyệt',
+    userAgent: 'User Agent',
+    proxyType: 'Loại proxy',
+    proxyHost: 'Host',
+    proxyPort: 'Port',
+    proxyUsername: 'Username',
+    proxyPassword: 'Password',
+    timezone: 'Múi giờ',
+    timezoneManual: 'Tùy chỉnh múi giờ',
+    location: 'Vị trí',
+    locationManual: 'Tùy chỉnh vị trí',
+    webRTC: 'WebRTC',
+    startUrl: 'Start url',
+    extensions: 'Extensions',
+    list: 'Danh sách profile',
+    createByName: 'Tạo từ tên'
   }
 }

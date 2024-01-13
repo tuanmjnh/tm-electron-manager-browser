@@ -18,6 +18,7 @@ module.exports = {
     "@typescript-eslint/no-non-null-assertion": "off",
     "vue/no-unused-vars": "off",
     "vue/html-indent": "off",
+    "vue/attributes-order": "off",
     "vue/require-default-prop": "off",
     "vue/multi-word-component-names": "off",
     "vue/max-attributes-per-line": "off",

@@ -4,5 +4,9 @@ declare global {
   interface Window {
     electron: ElectronAPI
     api: unknown
+    DarkMode: unknown
+    Dialog: unknown
+    Config: unknown
+    Puppeteer: unknown
   }
 }

@@ -22,8 +22,25 @@ if (process.contextIsolated) {
 }
 
 // NativeTheme
-contextBridge.exposeInMainWorld('darkMode', {
-  toggle: (args) => ipcRenderer.invoke('dark-mode:toggle', args),
-  system: () => ipcRenderer.invoke('dark-mode:system')
+contextBridge.exposeInMainWorld('DarkMode', {
+  Toggle: (args) => ipcRenderer.invoke('dark-mode:toggle', args),
+  System: () => ipcRenderer.invoke('dark-mode:system')
 })
 
+// Dialog
+contextBridge.exposeInMainWorld('Dialog', {
+  OpenFile: (args) => ipcRenderer.invoke('dialog:open-file', args),
+  OpenFolder: (args) => ipcRenderer.invoke('dialog:open-folder', args),
+  SaveFile: (args) => ipcRenderer.invoke('dialog:save-file', args)
+})
+
+// Config
+contextBridge.exposeInMainWorld('Config', {
+  Set: (args) => ipcRenderer.send('config:set', args),
+  Get: (args) => ipcRenderer.invoke('config:get', args)
+})
+
+// Puppeteer
+contextBridge.exposeInMainWorld('Puppeteer', {
+  Chrome: (args) => ipcRenderer.send('puppeteer:chrome', args)
+})

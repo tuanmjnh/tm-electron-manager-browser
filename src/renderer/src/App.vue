@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { defineAsyncComponent, computed } from "vue"
 import stores from "./stores"
-const storeSetting = stores.setting()
+const storeSettings = stores.settings()
 const storeAuthenticate = stores.authenticate()
 // init setting
-storeSetting.initialize()
+storeSettings.initialize()
+window.Config.Set({ profile: storeSettings.profile.directory })
+
 const component = computed(() => {
   // if (true) {
   if (storeAuthenticate.user) {

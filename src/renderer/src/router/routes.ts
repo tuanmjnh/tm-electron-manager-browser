@@ -11,18 +11,50 @@ export const constant = [
     meta: { title: 'dashboard', icon: 'fa-house', constant: true },
     component: () => import('../pages/dashboard/index.vue')
   },
-  {
-    path: '/window',
-    name: 'window',
-    meta: { title: 'window', icon: 'fa-bell', constant: true },
-    component: () => import('../pages/window/index.vue')
-  },
+  // {
+  //   path: '/window',
+  //   name: 'window',
+  //   meta: { title: 'window', icon: 'fa-bell', constant: true },
+  //   component: () => import('../pages/window/index.vue')
+  // },
   // {
   //   path: '/dialog',
   //   name: 'dialog',
   //   meta: { title: 'dialog', icon: 'fa-bell' },
   //   component: () => import('../pages/dialog/index.vue')
   // },
+  {
+    path: '/profiles',
+    name: 'profiles',
+    meta: { title: 'profiles', icon: 'fa-folder-open' },
+    component: fakeLayout,
+    children: [
+      {
+        path: 'view',
+        name: 'profiles-view',
+        meta: { parent: 'profiles', title: 'list', icon: 'fa-list' },
+        component: () => import('../pages/profiles/index.vue'),
+      },
+      {
+        path: 'add',
+        name: 'profiles-add',
+        meta: { parent: 'profiles', title: 'add', icon: 'fa-plus' },
+        component: () => import('../pages/profiles/add.vue'),
+      },
+      {
+        path: 'edit/:id',
+        name: 'profiles-edit',
+        meta: { parent: 'profiles', title: 'edit', icon: 'fa-edit', hidden: true },
+        component: () => import('../pages/profiles/add.vue')
+      },
+    ]
+  },
+  {
+    path: '/settings',
+    name: 'settings',
+    meta: { title: 'setting', icon: 'fa-gears', hidden: true },
+    component: () => import('../pages/settings/index.vue')
+  },
   {
     path: '/users',
     name: 'users',

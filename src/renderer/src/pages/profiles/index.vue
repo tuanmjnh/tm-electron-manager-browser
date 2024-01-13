@@ -3,16 +3,16 @@ import { ref, toRaw, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElTable } from 'element-plus'
 import stores from '../../stores'
-
-const storeRoles = stores.roles()
+const storeProfiles = stores.profiles()
+const storeSettings = stores.settings()
 const $router = useRouter()
 const isDialog = ref(false)
 
 const tableRef = ref<InstanceType<typeof ElTable>>()
-const tableData = computed(() => storeRoles.items)
+const tableData = computed(() => storeProfiles.items)
 const pagination = ref({
   filter: '',
-  sortBy: 'level',
+  sortBy: 'order',
   flag: 1,
   page: 1,
   descending: false,
@@ -21,7 +21,7 @@ const pagination = ref({
   totalPage: 0
 })
 const onFetch = async (pagination) => {
-  const rs = await storeRoles.get(toRaw(pagination.value))
+  const rs = await storeProfiles.get(toRaw(pagination.value))
   pagination.value = { ...pagination.value, ...{ rowsNumber: rs.rowsNumber, totalPage: Math.ceil(rs.rowsNumber / pagination.value.rowsPerPage) } }
 }
 onFetch(pagination)
@@ -37,7 +37,7 @@ const onChangeFlag = (val: number) => {
 }
 
 const onEdit = (index, row) => {
-  storeRoles.set(row)
+  storeProfiles.set(row)
   $router.push(`edit/${row._id}`)
 }
 const onTrash = (row) => {
@@ -46,21 +46,33 @@ const onTrash = (row) => {
 }
 const onTrashConfirm = () => {
   const rows = tableRef.value?.getSelectionRows()
-  storeRoles.patch(rows.map(x => x._id))
+  storeProfiles.patch(rows.map(x => x._id))
   isDialog.value = false
+}
+
+const onRun = (row) => {
+  const args = toRaw(row) as any
+  console.log(args)
+  args.profile = {
+    path: storeSettings.profile.directory,
+    name: ''
+  }
+  window.Puppeteer.Chrome(args).then(x => {
+    console.log(x)
+  })
 }
 </script>
 <template>
   <el-card shadow="never" class="el-card-index">
     <template #header>
       <div class="card-header">
-        <span class="title">{{ $t('roles.list') }}</span>
+        <span class="title">{{ $t('profiles.list') }}</span>
         <div class="el-space" />
         <el-col :span="8" style="margin-right: 5px;">
           <el-input v-model="pagination.filter" :placeholder="$t('global.search')" />
         </el-col>
         <el-tooltip class="box-item" effect="dark" :content="$t('global.add')" placement="top">
-          <el-button text circle type="primary" @click="$router.push({ name: 'roles-add' })">
+          <el-button text circle type="primary" @click="$router.push({ name: 'profiles-add' })">
             <i class="el-icon"><span class="fa-solid fa-plus" /></i>
           </el-button>
         </el-tooltip>
@@ -100,16 +112,22 @@ const onTrashConfirm = () => {
     <el-table ref="tableRef" :data="tableData" :empty-text="$t('global.updating')"
       style="width:100%;height:calc(100vh - 238px)">
       <el-table-column type="selection" width="55" />
-      <el-table-column align="left" prop="key" sortable :label="$t('roles.key')" />
-      <el-table-column align="left" prop="name" sortable :label="$t('roles.name')">
+      <el-table-column align="left" prop="name" sortable :label="$t('profiles.name')">
         <template #default="scope">
           <span :style="{ color: scope.row.color }">{{ scope.row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="level" sortable :label="$t('global.level')" width="100" />
-      <el-table-column align="center" :label="$t('global.createdAt')" width="150">
+      <el-table-column align="center" prop="order" sortable :label="$t('global.order')" width="110" />
+      <el-table-column align="center" sortable :label="$t('global.createdAt')" width="150">
         <template #default="scope">
           {{ $createdAt(scope.row.created.at) }}
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="Run" width="100">
+        <template #default="scope">
+          <el-button type="primary" text circle @click="onRun(scope.row)">
+            <i class="el-icon"><span class="fa-solid fa-circle-play" /></i>
+          </el-button>
         </template>
       </el-table-column>
       <el-table-column align="center" label="#" width="100">

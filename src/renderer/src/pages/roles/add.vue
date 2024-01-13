@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import debounce from 'lodash.debounce'
-import stores from '@renderer/stores'
 import { ref, toRaw, onMounted } from 'vue'
 import { useRouter, useRoute } from "vue-router"
 import { generateRoutesRoles } from '../../utils/tree'
@@ -10,6 +9,7 @@ import type { FormInstance, ElTree } from 'element-plus'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 import type { DragEvents } from 'element-plus/es/components/tree/src/model/useDragNode'
 import type { AllowDropType, NodeDropType } from 'element-plus/es/components/tree/src/tree.type'
+import stores from '../../stores'
 
 const storeRoles = stores.roles()
 const { t } = useI18n({ useScope: 'global' })
@@ -39,10 +39,9 @@ const handleDrop = (draggingNode: Node, dropNode: Node, dropType: NodeDropType, 
   console.log('tree drop:', dropNode.label, dropType)
 }
 
-const onCheckExist = debounce(() => {
-  storeRoles.find({ key: formData.value.key }).then(x => {
-  })
-}, 500)
+const onCheckExist = async () => {
+  return (await storeRoles.find({ key: formData.value.key })) ? true : false
+}
 
 const onSubmit = () => {
   if (!formRef.value) return
@@ -50,17 +49,16 @@ const onSubmit = () => {
     if (valid) {
       formData.value.routes = toRaw(treeRef.value!.getCheckedKeys(false) as any)
       if (formData.value._id) {
-        console.log('update')
+        storeRoles.put(toRaw(formData.value)).then(x => {
+          if (x) ElMessage.success(t('success.update'))
+        }).catch((e) => { ElMessage.error(t('error.invalid')) })
       } else {
-        storeRoles.post({ data: toRaw(formData.value) }).then(x => {
+        storeRoles.post(toRaw(formData.value)).then(x => {
           if (x) {
             ElMessage.success(t('success.insert'))
             onReset()
           }
-        }).catch((e) => {
-          console.log(e)
-          ElMessage.error(t('error.invalid'))
-        })
+        }).catch((e) => { ElMessage.error(t('error.invalid')) })
       }
     }
   })
@@ -73,18 +71,27 @@ const onSubmit = () => {
         <div class="card-header">
           <span class="title">{{ $t('roles.add') }}</span>
           <div class="el-space" />
-          <div class="el-space" />
           <el-button type="primary" class="el-button-square" @click="onSubmit">
             {{ formData._id ? $t('global.update') : $t('global.insert') }}
+          </el-button>
+          <el-button class="el-button-square" @click="$router.push({ name: 'roles-view' })">
+            {{ $t('global.back') }}
           </el-button>
           <!-- <el-button class="el-button-square" @click="onReset">{{ $t('global.reset') }}</el-button> -->
         </div>
       </template>
       <el-scrollbar>
-        <el-form-item prop="key" :label="$t('roles.key')" :rules="[{ required: true, message: $t('error.required') }]">
+        <el-form-item prop="key" :label="$t('roles.key')" :rules="[
+          { required: true, message: $t('error.required') },
+          {
+            asyncValidator: async (rule: any, value: any, callback: any) => {
+              if (await onCheckExist()) callback(true)
+              else callback()
+            }, message: $t('error.exist')
+          }
+        ]">
           <!-- <el-tooltip class="box-item" effect="dark" :content="$t('roles.key')" placement="left"> -->
-          <el-input v-model.trim="formData.key" autofocus clearable required :placeholder="$t('roles.key')"
-            @input="onCheckExist(formData.key)" />
+          <el-input v-model.trim="formData.key" autofocus clearable required :placeholder="$t('roles.key')" />
           <!-- </el-tooltip> -->
         </el-form-item>
         <el-form-item prop="name" :label="$t('roles.name')" :rules="[{ required: true, message: $t('error.required') }]">

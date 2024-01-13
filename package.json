@@ -30,7 +30,7 @@
     "axios": "^1.6.2",
     "chromedriver": "^120.0.1",
     "crypto": "^1.0.1",
-    "element-plus": "^2.4.3",
+    "element-plus": "^2.5.0",
     "firefox-profile": "^4.4.0",
     "geckodriver": "^4.3.0",
     "lodash.debounce": "^4.0.8",

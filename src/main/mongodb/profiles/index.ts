@@ -9,17 +9,16 @@ ipcMain.handle(`${collectionName}.get`, async (event, args) => {
     if (args.filter) {
       conditions.$and.push({
         $or: [
-          { key: new RegExp(args.filter, 'i') },
           { name: new RegExp(args.filter, 'i') }
         ]
       })
     }
-    if (!args.sortBy) args.sortBy = 'level'
+    if (!args.sortBy) args.sortBy = 'order'
     rs.rowsNumber = (await Get(conditions)).length
     rs.data = await Get(conditions)
       .skip((parseInt(args.page) - 1) * parseInt(args.rowsPerPage))
       .limit(parseInt(args.rowsPerPage))
-      .sort({ [(args.sortBy) || 'level']: args.descending === 'true' ? -1 : 1 }) // 1 ASC, -1 DESC
+      .sort({ [(args.sortBy) || 'order']: args.descending === 'true' ? -1 : 1 }) // 1 ASC, -1 DESC
       .exec()
     return JSON.stringify(rs)
   } catch (e) {

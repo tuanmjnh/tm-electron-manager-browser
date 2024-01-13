@@ -1,26 +1,29 @@
 <script setup lang="ts">
 import { reactive, ref, computed, onMounted } from 'vue'
-import type { FormInstance } from 'element-plus'
 import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import { ElMessage } from 'element-plus'
+import type { FormInstance } from 'element-plus'
 import stores from '@renderer/stores'
 
+const { t } = useI18n({ useScope: 'global' })
 const $route = useRoute()
 const $router = useRouter()
 
 const storeApplication = stores.application()
-const storeSetting = stores.setting()
+const storeSettings = stores.settings()
 const storeAuthenticate = stores.authenticate()
 
 const languages = computed(() => storeApplication.languages)
-window.darkMode.toggle([storeSetting.darkMode])
+window.DarkMode.Toggle([storeSettings.darkMode])
 const onToggleDarkMode = async () => {
-  const darkMode = !storeSetting.darkMode
-  await window.darkMode.toggle([darkMode])
-  storeSetting.setDarkMode(darkMode)
+  const darkMode = !storeSettings.darkMode
+  await window.DarkMode.Toggle([darkMode])
+  storeSettings.setDarkMode(darkMode)
 }
 const onSetLanguage = (item) => {
-  if (storeSetting.language !== item) {
-    storeSetting.setLanguage(`${item.cc_iso}-${item.cc}`)
+  if (storeSettings.language !== item) {
+    storeSettings.setLanguage(`${item.cc_iso}-${item.cc}`)
   }
 }
 
@@ -41,17 +44,24 @@ const formData = reactive<{
 //   key: number
 //   value: string
 // }
+const fullscreenLoading = ref(false)
 
 const onSubmit = () => {
+  fullscreenLoading.value = true
   if (!formRef.value) return
   formRef.value.validate(valid => {
     if (valid) {
       storeAuthenticate.login({ ...{}, ...formData }).then(x => {
         if (x) $router.push('/').catch((e) => { })
+        fullscreenLoading.value = false
+      }).catch((e) => {
+        ElMessage.error(t('error.system'))
+        fullscreenLoading.value = false
       })
     }
   })
 }
+
 const resetForm = () => {
   if (!formRef.value) return
   formRef.value.resetFields()
@@ -74,12 +84,12 @@ onMounted(() => {
             <div class="el-space" />
             <el-dropdown class="mr-3">
               <el-button text circle>
-                <span :class="`fi fi-${storeSetting.language}`" />
+                <span :class="`fi fi-${storeSettings.language}`" />
               </el-button>
               <template #dropdown>
                 <el-dropdown-menu>
                   <el-dropdown-item v-for="(e, i) in languages" :key="i"
-                    :class="`${e.cc_iso}-${e.cc}` === storeSetting.language ? 'selected' : ''" @click="onSetLanguage(e)">
+                    :class="`${e.cc_iso}-${e.cc}` === storeSettings.language ? 'selected' : ''" @click="onSetLanguage(e)">
                     <span :class="`fi fi-${e.cc_iso}-${e.cc}`" />
                     <span class="custom-title">{{ e.name_l }}</span>
                   </el-dropdown-item>
@@ -92,8 +102,8 @@ onMounted(() => {
                 <path stroke-linecap="round" stroke-linejoin="round"
                   d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
               </svg> -->
-              <i v-if="storeSetting.darkMode" class="el-icon"><span class="fa-solid fa-moon" /></i>
-              <i v-if="!storeSetting.darkMode" class="el-icon"><span class="fa-solid fa-sun" /></i>
+              <i v-if="storeSettings.darkMode" class="el-icon"><span class="fa-solid fa-moon" /></i>
+              <i v-if="!storeSettings.darkMode" class="el-icon"><span class="fa-solid fa-sun" /></i>
             </el-button>
           </div>
         </template>
@@ -123,7 +133,8 @@ onMounted(() => {
         <template #footer>
           <div class="flex">
             <div class="el-space" />
-            <el-button type="primary" class="el-button-square" @click="onSubmit">
+            <el-button type="primary" class="el-button-square" v-loading.fullscreen.lock="fullscreenLoading"
+              @click="onSubmit">
               {{ $t('authenticate.login') }}
             </el-button>
             <el-button class="el-button-square" @click="resetForm">{{ $t('global.reset') }}</el-button>
