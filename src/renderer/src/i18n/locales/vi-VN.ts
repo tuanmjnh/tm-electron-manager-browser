@@ -29,7 +29,7 @@ export default {
     configs: 'Cấu hình',
     orders: 'Đơn hàng',
     store: 'Kho hàng',
-    import: 'Nhập kho',
+    import: 'Nhập file',
     importAdd: 'Nhập kho mới',
     export: 'Xuất kho',
     exportAdd: 'Xuất kho mới',
@@ -170,7 +170,8 @@ export default {
     auto: 'Tự động',
     custom: 'Tùy chỉnh',
     manual: 'Thủ công',
-    directory: 'Thư mục'
+    directory: 'Thư mục',
+    account: 'Tài khoản'
   },
   success: {
     insert: 'Thêm mới thành công',
@@ -310,10 +311,11 @@ export default {
   },
   profiles: {
     title: 'Profile',
-    add: 'Thêm profile',
+    add: 'Thêm Profile',
+    edit: 'Cập nhật Profile',
     key: 'Mã profile',
     name: 'Tên profile',
-    broserType: 'Loại trình duyệt',
+    browserType: 'Loại trình duyệt',
     userAgent: 'User Agent',
     proxyType: 'Loại proxy',
     proxyHost: 'Host',

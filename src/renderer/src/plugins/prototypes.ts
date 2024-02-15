@@ -2,6 +2,7 @@ declare global {
   interface String {
     convertToAscii(): string;
     removeChars(): string;
+    removeCharsFolder(): string;
     toHtml(): string;
     toUpperCaseFirst(): string;
     toUpperCaseSpace(): string;
@@ -37,9 +38,24 @@ String.prototype.convertToAscii = function () {
     .replace(/[đ]/g, 'd')
     .replace(/[~\`!@#$%^&*()--+={}\\|;:\'\"<,>.?/”“‘’„‰‾–—]/g, '')
 }
+
 String.prototype.removeChars = function () {
   return this.replace(/[~`!@#$%^&*()\[{}\]\\|;:\'\",<>./?]/g, '')
 }
+
+String.prototype.removeCharsFolder = function () {
+  // < (less than)
+  // > (greater than)
+  // : (colon)
+  // " (double quote)
+  // / (forward slash)
+  // \ (backslash)
+  // | (vertical bar or pipe)
+  // ? (question mark)
+  // * (asterisk)
+  return this.replace(/[<>:"/\\|?*]/g, '')
+}
+
 String.prototype.toHtml = function () {
   if (!this) return this
   const el = document.createElement('div') as HTMLElement;

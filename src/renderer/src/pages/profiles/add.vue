@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import debounce from 'lodash.debounce'
-import { ref, toRaw, watch } from 'vue'
+import { ref, toRaw } from 'vue'
 import { useRoute } from "vue-router"
 import { useI18n } from 'vue-i18n'
 import { ElMessage } from 'element-plus'
@@ -16,9 +16,18 @@ const formRef = ref<FormInstance>()
 const formData = ref(null) as any
 const $route = useRoute()
 const tab = ref('basic')
-const proxyIsDetail = ref(false)
-const proxyDetail = ref('')
-const isExist = ref(false)
+const passwordType = ref('password')
+
+// const accountUrlOptions = ref<[{
+//   label: string,
+//   key: string,
+//   value: string,
+// }]>([{
+//   label: 'Gmail',
+//   key: 'gmail',
+//   value: 'https://accounts.google.com/ServiceLogin?service=mail',
+// }])
+
 const onReset = () => {
   return new Promise((resolve, reject) => {
     if (!$route.params.id) storeProfiles.set()
@@ -32,28 +41,29 @@ const onReset = () => {
 onReset()
 
 const onChangeProxyDetail = debounce(() => {
+  // const proxy = proxyDetail.value.split(':')
+  // formData.value.proxyHost = proxy.length > 0 ? proxy[0] : ''
+  // formData.value.proxyPort = proxy.length > 1 ? proxy[1] : ''
+  // formData.value.proxyUsername = proxy.length > 2 ? proxy[2] : ''
+  // formData.value.proxyPassword = proxy.length > 3 ? proxy[3] : ''
+}, 300)
+
+const proxiesType = storeProfiles.proxyType
+const proxyDetail = ref('')
+const proxyType = ref(proxiesType.length > 0 ? proxiesType[0] : '')
+const onUpdateProxy = () => {
   const proxy = proxyDetail.value.split(':')
-  formData.value.proxyHost = proxy.length > 0 ? proxy[0] : ''
-  formData.value.proxyPort = proxy.length > 1 ? proxy[1] : ''
-  formData.value.proxyUsername = proxy.length > 2 ? proxy[2] : ''
-  formData.value.proxyPassword = proxy.length > 3 ? proxy[3] : ''
-}, 300)
-
-const onCheckExist = async () => {
-  return (await storeProfiles.find({ key: formData.value.key })) ? true : false
+  if (proxy.length > 3) {
+    formData.value.proxies.push({
+      type: proxyType.value,
+      host: proxy[0],
+      port: proxy[1],
+      username: proxy[2],
+      password: proxy[3]
+    })
+    proxyDetail.value = ''
+  }
 }
-const onKeyGenerateByName = debounce(() => {
-  if (!formData.value._id && !formData.value.key)
-    formData.value.key = formData.value.name.convertToAscii()
-}, 300)
-
-const onKeyCreateByName = debounce(() => {
-  formData.value.key = formData.value.name.convertToAscii()
-}, 300)
-
-const onKeyConvertToAscii = debounce(() => {
-  formData.value.key = formData.value.key.convertToAscii()
-}, 300)
 
 
 // watch(() => formData.value.key, (now, prev) => {
@@ -66,6 +76,40 @@ const onKeyConvertToAscii = debounce(() => {
 //     console.log(x)
 //   })
 // }, 500))
+
+const account = ref('')
+const accountUrlOptions = storeProfiles.accountType
+const accountUrl = ref(accountUrlOptions[0])
+const onUpdateAccount = () => {
+  const acc = account.value.split(':')
+  if (acc.length > 1) {
+    // if (!formData.value.accounts) formData.value.accounts = []
+    formData.value.accounts.push({
+      type: accountUrl.value.key,
+      // url: accountUrl.value.value,
+      username: acc[0],
+      password: acc[1]
+    })
+    account.value = ''
+  }
+}
+
+const onCheckExist = async () => {
+  if (!formData.value._id) return (await storeProfiles.find({ key: formData.value.key })) ? true : false
+  else return false
+}
+const onKeyGenerateByName = debounce(() => {
+  if (!formData.value._id && !formData.value.key)
+    formData.value.key = formData.value.name.removeCharsFolder()
+}, 300)
+
+const onKeyCreateByName = debounce(() => {
+  formData.value.key = formData.value.name.removeCharsFolder()
+}, 300)
+
+const onKeyConvertToAscii = debounce(() => {
+  formData.value.key = formData.value.name.removeCharsFolder()
+}, 300)
 
 const onSubmit = () => {
   if (!formRef.value) return
@@ -92,7 +136,7 @@ const onSubmit = () => {
     <el-card shadow="never" class="el-card-add-tab">
       <template #header>
         <div class="card-header">
-          <span class="title">{{ $t('profiles.add') }}</span>
+          <span class="title">{{ formData._id ? $t('profiles.edit') : $t('profiles.add') }}</span>
           <div class="el-space" />
           <el-button type="primary" class="el-button-square" @click="onSubmit">
             {{ formData._id ? $t('global.update') : $t('global.insert') }}
@@ -128,12 +172,12 @@ const onSubmit = () => {
                 </template>
               </el-input>
             </el-form-item>
-            <el-form-item prop="broserType" :label="$t('profiles.broserType')">
-              <div :class="['el-avatar-select', formData.broserType == 'chrome' ? 'selected' : '']">
-                <el-avatar :size="50" :src="chromePNG" @click="formData.broserType = 'chrome'" />
+            <el-form-item prop="browserType" :label="$t('profiles.browserType')">
+              <div :class="['el-avatar-select', formData.browserType == 'chrome' ? 'selected' : '']">
+                <el-avatar :size="50" :src="chromePNG" @click="formData.browserType = 'chrome'" />
               </div>
-              <div :class="['el-avatar-select', formData.broserType == 'firefox' ? 'selected' : '']">
-                <el-avatar :size="50" :src="firefoxPNG" @click="formData.broserType = 'firefox'" />
+              <div :class="['el-avatar-select', formData.browserType == 'firefox' ? 'selected' : '']">
+                <el-avatar :size="50" :src="firefoxPNG" @click="formData.browserType = 'firefox'" />
               </div>
             </el-form-item>
             <el-form-item prop="userAgent" :label="$t('profiles.userAgent')">
@@ -154,8 +198,44 @@ const onSubmit = () => {
         </el-tab-pane>
         <el-tab-pane name="proxy" label="Proxy">
           <el-scrollbar>
-            <el-form-item prop="proxyType" :label="$t('profiles.proxyType')">
-              <el-select v-model="formData.proxyType" :placeholder="$t('profiles.proxyType')">
+            <el-input v-model.trim="proxyDetail" :disabled="!proxyType.length" clearable
+              placeholder="host:port:username:password">
+              <template #prepend>
+                <el-select v-model="proxyType" placeholder="No Proxy" style="width: 115px">
+                  <el-option v-for="(ops, i) in proxiesType" :key="i" :label="ops.label" :value="ops.value" />
+                  <!-- <el-option label="Google Mail" value="1" /> -->
+                  <!-- <el-option label="Outlook Mail" value="2" /> -->
+                </el-select>
+              </template>
+              <template #append v-if="proxyType.length">
+                <el-button class="el-button-append" type="primary" @click="onUpdateProxy">
+                  {{ $t('global.update') }}
+                </el-button>
+              </template>
+            </el-input>
+            <el-table :data="formData.proxies" style="width: 100%">
+              <el-table-column prop="type" :label="$t('profiles.proxyType')" />
+              <el-table-column prop="host" label="Host" />
+              <el-table-column prop="port" label="Port" />
+              <el-table-column prop="username" label="Username" />
+              <el-table-column prop="password" label="Password" />
+              <el-table-column align="center" label="#" width="100">
+                <!-- <template #default="scope">
+                  <el-button type="success" text circle @click="onEditAccount(scope.row)">
+                    <i class="el-icon"><span class="fa-solid fa-pen-to-square" /></i>
+                  </el-button>
+                  <el-popconfirm title="Are you sure to delete this?">
+                    <template #reference>
+                      <el-button type="warning" text circle @click="onRemoveAccount(scope.row)">
+                        <i class="el-icon"><span class="fa-solid fa-recycle" /></i>
+                      </el-button>
+                    </template>
+                  </el-popconfirm>
+                </template> -->
+              </el-table-column>
+            </el-table>
+            <!-- <el-form-item prop="proxyType" :label="$t('profiles.proxyType')">
+              <el-select v-model="proxy.type" placeholder="No Proxy">
                 <el-option label="No Proxy" value="" />
                 <el-option label="HTTP" value="http" />
                 <el-option label="HTTPS" value="https" />
@@ -166,32 +246,37 @@ const onSubmit = () => {
             <el-form-item label="Proxy">
               <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb-2">
                 <el-input v-model.trim="proxyDetail" placeholder="Host:Port:Username:Password"
-                  @input="onChangeProxyDetail" @blur="onChangeProxyDetail">
+                  @input="onChangeProxyDetail">
                   <template #append>
                     <el-switch v-model="proxyIsDetail" />
                   </template>
                 </el-input>
               </el-col>
-              <template v-if="proxyIsDetail">
+            </el-form-item> -->
+            <!-- <template v-if="proxyIsDetail">
+              <el-form-item :label="$t('profiles.proxyHost')">
                 <el-col :sm="24" :md="12" :lg="6" :xl="6" class="mb-2">
                   <el-input v-model.trim="formData.proxyHost" :placeholder="$t('profiles.proxyHost')" readonly disabled />
                 </el-col>
-                <el-col :md="1" :lg="1" />
-                <el-col :sm="24" :md="11" :lg="5" :xl="5" class="mb-2">
+              </el-form-item>
+              <el-form-item :label="$t('profiles.proxyPort')">
+                <el-col :sm="24" :md="12" :lg="6" :xl="6" class="mb-2">
                   <el-input v-model.trim="formData.proxyPort" :placeholder="$t('profiles.proxyPort')" readonly disabled />
                 </el-col>
-                <el-col :md="0" :lg="1" />
-                <el-col :sm="24" :md="12" :lg="5" :xl="5" class="mb-2">
+              </el-form-item>
+              <el-form-item :label="$t('profiles.proxyUsername')">
+                <el-col :sm="24" :md="12" :lg="6" :xl="6" class="mb-2">
                   <el-input v-model.trim="formData.proxyUsername" :placeholder="$t('profiles.proxyUsername')" readonly
                     disabled />
                 </el-col>
-                <el-col :md="1" :lg="1" />
-                <el-col :sm="24" :md="11" :lg="5" :xl="5" class="mb-2">
+              </el-form-item>
+              <el-form-item :label="$t('profiles.proxyPassword')">
+                <el-col :sm="24" :md="12" :lg="6" :xl="6" class="mb-2">
                   <el-input v-model.trim="formData.proxyPassword" :placeholder="$t('profiles.proxyPassword')" readonly
                     disabled />
                 </el-col>
-              </template>
-            </el-form-item>
+              </el-form-item>
+            </template> -->
           </el-scrollbar>
         </el-tab-pane>
         <el-tab-pane name="location-time" :label="$t('global.regionTime')">
@@ -218,7 +303,7 @@ const onSubmit = () => {
             </el-form-item>
           </el-scrollbar>
         </el-tab-pane>
-        <el-tab-pane lname="advanced" :label="$t('global.advanced')">
+        <el-tab-pane name="advanced" :label="$t('global.advanced')">
           <el-scrollbar>
             <el-form-item prop="name" :label="$t('profiles.startUrl')">
               <el-input v-model.trim="formData.startUrl" clearable :placeholder="$t('profiles.startUrl')" />
@@ -229,6 +314,60 @@ const onSubmit = () => {
             <el-form-item prop="name" :label="$t('profiles.webRTC')">
               <el-input v-model.trim="formData.webRTC" clearable :placeholder="$t('profiles.webRTC')" />
             </el-form-item>
+          </el-scrollbar>
+        </el-tab-pane>
+        <el-tab-pane name="accounts" :label="$t('global.account')">
+          <el-scrollbar>
+            <!-- <el-form-item prop="account"> -->
+            <el-input v-model.trim="account" clearable placeholder="username:password">
+              <template #prepend>
+                <el-select v-model="accountUrl" :placeholder="$t('global.type')" style="width: 115px">
+                  <el-option v-for="(ops, i) in accountUrlOptions" :key="i" :label="ops.label" :value="ops.value" />
+                  <!-- <el-option label="Google Mail" value="1" /> -->
+                  <!-- <el-option label="Outlook Mail" value="2" /> -->
+                </el-select>
+              </template>
+              <template #append>
+                <el-button class="el-button-append" type="primary" @click="onUpdateAccount">
+                  {{ $t('global.update') }}
+                </el-button>
+              </template>
+            </el-input>
+            <!-- </el-form-item> -->
+            <!-- <el-form-item prop="name" :label="$t('users.username')">
+              <el-input v-model.trim="account.username" clearable :placeholder="$t('users.username')" />
+            </el-form-item>
+            <el-form-item prop="name" :label="$t('users.password')">
+              <el-input v-model.trim="account.password" :type="passwordType" required :placeholder="$t('users.password')">
+                <template #append>
+                  <el-button v-if="passwordType === 'password'" @click="passwordType = 'text'">
+                    <i class="el-icon"><span class="fa-solid fa-eye-slash" /></i>
+                  </el-button>
+                  <el-button v-else @click="passwordType = 'password'">
+                    <i class="el-icon"><span class="fa-solid fa-eye" /></i>
+                  </el-button>
+                </template>
+              </el-input>
+            </el-form-item> -->
+            <el-table :data="formData.accounts" style="width: 100%">
+              <el-table-column prop="type" :label="$t('global.type')" width="180" />
+              <el-table-column prop="username" :label="$t('users.username')" />
+              <el-table-column prop="password" :label="$t('users.password')" />
+              <el-table-column align="center" label="#" width="100">
+                <!-- <template #default="scope">
+                  <el-button type="success" text circle @click="onEditAccount(scope.row)">
+                    <i class="el-icon"><span class="fa-solid fa-pen-to-square" /></i>
+                  </el-button>
+                  <el-popconfirm title="Are you sure to delete this?">
+                    <template #reference>
+                      <el-button type="warning" text circle @click="onRemoveAccount(scope.row)">
+                        <i class="el-icon"><span class="fa-solid fa-recycle" /></i>
+                      </el-button>
+                    </template>
+                  </el-popconfirm>
+                </template> -->
+              </el-table-column>
+            </el-table>
           </el-scrollbar>
         </el-tab-pane>
       </el-tabs>

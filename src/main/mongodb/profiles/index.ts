@@ -91,7 +91,7 @@ ipcMain.handle(`${collectionName}.post`, async (event, args) => {
   try {
     // check exist code
     const exist = await Exist(args.key)
-    if (exist) throw new Error('exist') //return res.status(501).send('exist')
+    if (exist) return JSON.stringify({ error: 'exist' })// throw new Error('exist') //return res.status(501).send('exist')
     // insert
     const rs = await Insert(args, global.authUser._id)
     if (!rs) throw new Error('invalid')//res.status(500).send('invalid')

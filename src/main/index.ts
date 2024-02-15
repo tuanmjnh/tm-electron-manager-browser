@@ -23,14 +23,15 @@ let mainWindow
 function createWindow(): void {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
+    width: 1024,
+    height: 768,
     show: false,
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false,
+      nodeIntegrationInWorker: true
       // nodeIntegration: true,
       // contextIsolation: false
     }
@@ -96,3 +97,8 @@ app.on('window-all-closed', () => {
 
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
+
+// process.dlopen = () => {
+//   throw new Error('Load native module is not safe')
+// }
+// const worker = new Worker('script.js')

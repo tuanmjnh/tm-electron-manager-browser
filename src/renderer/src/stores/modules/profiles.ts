@@ -1,66 +1,52 @@
 import { defineStore } from 'pinia'
+import { IProfiles, IProxy, IAccount } from '../../../../interfaces/IProfiles'
 import localStorage from '../../utils/localStorage'
 const NAMESPACED = 'profiles'
 const LOCALSTORAGE = localStorage.get(NAMESPACED) || {}
-interface Timezone {
-  auto: boolean,
-  TZ: string
-}
-interface Location {
-  auto: boolean,
-  latitude?: number,
-  longitude?: number
-}
-interface MProfiles {
-  _id?: string,
-  key: string,
-  name: string,
-  broserType: string,
-  broserVersion: string,
-  userAgent: string,
-  proxyType: string,
-  proxyHost: string,
-  proxyPort: string,
-  proxyUsername: string,
-  proxyPassword: string,
-  location?: Location,
-  timezone: Timezone,
-  webRTC: string,
-  startUrl: string,
-  extensions: string,
-  desc: string,
-  order: number,
-  flag: number,
-  created: any
-}
 const constant = ({
   _id: undefined,
   key: '',
   name: '',
-  broserType: 'chrome',
-  broserVersion: '',
+  browserType: 'chrome',
+  browserVersion: '',
   userAgent: '',
-  proxyType: '',
-  proxyHost: '',
-  proxyPort: '',
-  proxyUsername: '',
-  proxyPassword: '',
+  proxies: [] as any,
+  // proxyType: '',
+  // proxyHost: '',
+  // proxyPort: '',
+  // proxyUsername: '',
+  // proxyPassword: '',
   location: { auto: true },//{ latitude: undefined, longitude: undefined },
   timezone: { auto: true },
   webRTC: '',
   startUrl: 'https://ipfighter.com',
   extensions: '',
+  accounts: [] as any,
   desc: '',
   order: 1,
   flag: 1,
   created: undefined
-}) as MProfiles
+}) as IProfiles
 export default defineStore({
   id: NAMESPACED,
   persist: true,
   state: () => ({
     items: LOCALSTORAGE.items || [],
-    item: { ...constant }
+    item: { ...constant },
+    proxyType: [
+      { label: 'No Proxy', value: '' },
+      { label: 'HTTP', value: 'http' },
+      { label: 'HTTPS', value: 'https' },
+      { label: 'SOCKS V4', value: 'socks4' },
+      { label: 'SOCKS V5', value: 'socks5' },
+    ],
+    accountType: [
+      {
+        label: 'Gmail',
+        key: 'gmail',
+        value: 'https://accounts.google.com/ServiceLogin?service=mail',
+      }
+    ]
   }),
   getters: {},
   actions: {
@@ -162,6 +148,59 @@ export default defineStore({
           if (i > -1) this.items.splice(i, 1)
         }
         return rs
+      } catch (e) {
+        throw new Error((e as any))
+      }
+    },
+    async import(args) {
+      try {
+        const result = { data: [] as any, success: [] as any, error: [] as any }
+        const data = args.txt.split('\n')
+        for await (const e of data) {
+          const r = e.split(':')
+          if (r.length > 10) {
+            const proxy: IProxy = {
+              type: r[3],
+              host: r[4],
+              port: r[5],
+              username: r[6],
+              password: r[7]
+            }
+            const account: IAccount = {
+              type: r[8],
+              username: r[9],
+              password: r[10]
+            }
+            const row: IProfiles = {
+              key: r[0].removeCharsFolder(),
+              name: r[0],
+              browserType: r[1],
+              browserVersion: '',
+              userAgent: r[2] || '',
+              proxies: [proxy],
+              // proxyType: '',
+              // proxyHost: '',
+              // proxyPort: '',
+              // proxyUsername: '',
+              // proxyPassword: '',
+              location: { auto: true },//{ latitude: undefined, longitude: undefined },
+              timezone: { auto: true },
+              webRTC: '',
+              startUrl: 'https://ipfighter.com',
+              extensions: '',
+              accounts: [account],
+              desc: '',
+              order: 1,
+              flag: 1,
+              created: undefined
+            }
+            result.data.push(row)
+            const rs = JSON.parse(await window.electron.ipcRenderer.invoke(`${NAMESPACED}.post`, row))
+            if (rs.error) result.error.push(row)
+            else result.success.push(row)
+          }
+        }
+        return result
       } catch (e) {
         throw new Error((e as any))
       }

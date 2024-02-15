@@ -169,7 +169,8 @@ export default {
     auto: 'Auto',
     custom: 'Custom',
     manual: 'Manual',
-    directory: 'Directory'
+    directory: 'Directory',
+    account: 'Accounts'
   },
   success: {
     insert: 'Insert success',
@@ -309,10 +310,11 @@ export default {
   },
   profiles: {
     title: 'Profile',
-    add: 'Add new profile',
+    add: 'Add new Profile',
+    edit: 'Update Profile',
     key: 'Profile key',
     name: 'Profile Name',
-    broserType: 'Broser type',
+    browserType: 'Broser type',
     userAgent: 'User Agent',
     proxyType: 'Proxy type',
     proxyHost: 'Host',

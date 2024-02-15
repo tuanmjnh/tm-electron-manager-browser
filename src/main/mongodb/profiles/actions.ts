@@ -31,7 +31,7 @@ export const FindOne = (conditions, fields?) => {
 
 export const Exist = async (key) => {
   try {
-    const exist = await MProfiles.findOne({ key: key.toUpperCase() })
+    const exist = await MProfiles.findOne({ key: key.toLowerCase() })
     if (exist) return true
     else return false
   } catch (e) {
@@ -53,6 +53,7 @@ export const Insert = async (item, createdBy, session?) => {
       if (item.location.longitude) item.location.longitude = parseFloat(item.location.longitude)
     }
     // item.dateBirth = Moment(item.dateBirth, 'DD/MM/YYYY')
+    item.key = item.key.toLowerCase()
     const data = new MProfiles(item)
     data.validateSync()
     if (session) return data.save({ session: session })
@@ -68,19 +69,21 @@ export const Update = async (item, session?) => {
     const set = {
       name: item.name,
       // key: item.key,
-      broserType: item.broserType,
-      broserVersion: item.broserVersion,
+      browserType: item.browserType,
+      browserVersion: item.browserVersion,
       userAgent: item.userAgent,
-      proxyType: item.proxyType,
-      proxyHost: item.proxyHost,
-      proxyPort: item.proxyPort,
-      proxyUsername: item.proxyUsername,
-      proxyPassword: item.proxyPassword,
+      proxies: item.proxies,
+      // proxyType: item.proxyType,
+      // proxyHost: item.proxyHost,
+      // proxyPort: item.proxyPort,
+      // proxyUsername: item.proxyUsername,
+      // proxyPassword: item.proxyPassword,
       location: item.location,
       timezone: item.timezone,
       webRTC: item.webRTC,
       startUrl: item.startUrl,
       extensions: item.extensions,
+      accounts: item.accounts,
       desc: item.desc,
       order: item.order
     }

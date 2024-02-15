@@ -47,6 +47,12 @@ export const constant = [
         meta: { parent: 'profiles', title: 'edit', icon: 'fa-edit', hidden: true },
         component: () => import('../pages/profiles/add.vue')
       },
+      {
+        path: 'import',
+        name: 'profiles-import',
+        meta: { parent: 'profiles', title: 'import', icon: 'fa-file-import' },
+        component: () => import('../pages/profiles/import.vue'),
+      },
     ]
   },
   {

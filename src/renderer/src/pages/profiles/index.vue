@@ -16,7 +16,7 @@ const pagination = ref({
   flag: 1,
   page: 1,
   descending: false,
-  rowsPerPage: 5,
+  rowsPerPage: 10,
   rowsNumber: 1,
   totalPage: 0
 })
